@@ -5,11 +5,8 @@ using UnityEngine;
 public class Room : MonoBehaviour
 {
     public bool autoStart = false;
-
     [HideInInspector] public static int maxLevel = 12;
-
     public List<GameObject> rooms = new List<GameObject>();
-
     public static List<Transform> roomsCollider = new List<Transform>();
     private List<Transform> doors = new List<Transform>();
     public int seed;
