@@ -4,20 +4,24 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
+    public List<GameObject> roomsInspector = new List<GameObject>();
+    [Range(1, 21474836)] public int seed;
+    public int maxLevelInspector = 5;
     public bool autoStart = false;
 
-    [HideInInspector] public static int maxLevel = 12;
-    
-    public List<GameObject> rooms = new List<GameObject>();
+    [HideInInspector] public static int maxLevel = 5;
+    public static List<GameObject> rooms = new List<GameObject>();
     public static List<Transform> roomsCollider = new List<Transform>();
     private List<Transform> doors = new List<Transform>();
-    public int seed;
     private static System.Random rand;
+
     void Start()
     {
         if(autoStart)
         {
+            rooms = new List<GameObject>(roomsInspector);
             rand = new System.Random(seed);
+            maxLevel = maxLevelInspector;
 
             for(int i = 0; i < gameObject.transform.childCount;i++)
                 if(gameObject.transform.GetChild(i).tag == "Room")
@@ -107,9 +111,6 @@ public class Room : MonoBehaviour
 
                     for(int j = 0; j< roomsCollider.Count; j++)
                     {
-                        //if(deleted == true)
-                            //break;
-
                         for(int k = 0; k < newRoom.transform.childCount; k++)
                         {
                             if(newRoom.transform.GetChild(k).tag == "Room")
@@ -140,8 +141,6 @@ public class Room : MonoBehaviour
 
                 spawned = true;
                 newRoomsGenerate.Add(newRoom.GetComponent<Room>());
-                newRoomsGenerate[newRoomsGenerate.Count-1].seed = seed;
-                newRoomsGenerate[newRoomsGenerate.Count-1].rooms = rooms;
             }
         }
 
