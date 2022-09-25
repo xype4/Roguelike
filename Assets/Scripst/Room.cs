@@ -6,12 +6,14 @@ public class Room : MonoBehaviour
 {
     public List<GameObject> roomsInspector = new List<GameObject>();
     [Range(1, 21474836)] public int seed;
-    public int maxLevelInspector = 5;
+    private int maxLevelInspector = 4;
     public bool root = false;
+    public Transform parentRoomObject;
 
     [HideInInspector] public int roomID;
     [HideInInspector] public static int maxLevel = 5;
     public static List<GameObject> rooms = new List<GameObject>();
+    public static Transform parentRoomObjectStatic;
     public static List<Transform> roomsCollider = new List<Transform>();
     private List<Transform> doors = new List<Transform>();
     private static System.Random rand;
@@ -21,9 +23,14 @@ public class Room : MonoBehaviour
     {
         if(root)
         {
+            if(Settings.seed !="")
+                seed = int.Parse(Settings.seed);
+            else
+                seed = Random.Range(0, 100000000);
             rooms = new List<GameObject>(roomsInspector);
             rand = new System.Random(seed);
-            maxLevel = maxLevelInspector;
+            parentRoomObjectStatic = parentRoomObject;
+            maxLevel = (int)((float)maxLevelInspector*(Settings.size+1.5f));
             roomID = 0;
 
             for(int i = 0; i < rooms.Count; i++)
@@ -125,7 +132,7 @@ public class Room : MonoBehaviour
                 for(int rotationRoomStep = 0; rotationRoomStep < 4; rotationRoomStep++)
                 {
                     rotationRoom.Rotate(0.0f, 90.0f, 0.0f, Space.Self);
-                    newRoom = Instantiate(rooms[newRoomNumberCurrent], doorCoord, rotationRoom.rotation); 
+                    newRoom = Instantiate(rooms[newRoomNumberCurrent], doorCoord, rotationRoom.rotation, parentRoomObjectStatic); 
 
                     deleted = false;
 

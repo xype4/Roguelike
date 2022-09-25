@@ -7,6 +7,7 @@ public class ItemSpawner : MonoBehaviour
     public List<ItemSpawnerDot> itemSpawnPoints;
     public int maxLevel = 0;
     public GameObject atrifact;
+    public Transform parentItemObject;
 
     public List<float> chance = new List<float>();
     public List<GameObject> items = new List<GameObject>();
@@ -26,7 +27,7 @@ public class ItemSpawner : MonoBehaviour
             if(itemSpawnPoints[i].level == maxLevel)
             {
                 if(atrifact!=null)
-                Instantiate(atrifact, itemSpawnPoints[i].cords, new Quaternion(0,0,0,0));
+                Instantiate(atrifact, itemSpawnPoints[i].cords, new Quaternion(0,0,0,0), parentItemObject);
                 itemSpawnPoints.RemoveAt(i);
                 break;
             }
@@ -38,7 +39,7 @@ public class ItemSpawner : MonoBehaviour
             {
                 if(chance[j]>Random.Range(0f,1f))
                 {
-                    Instantiate(items[i], itemSpawnPoints[i].cords, new Quaternion(0,0,0,0));
+                    Instantiate(items[j], itemSpawnPoints[i].cords, new Quaternion(0,0,0,0), parentItemObject);
                     continue;
                 }
             }
